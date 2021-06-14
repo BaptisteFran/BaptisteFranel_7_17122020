@@ -1,0 +1,87 @@
+<template>
+  <div class="home">
+    <section id="main">
+      <section class="container" v-for="post in posts">
+        <Posts
+          :titre="post.title"
+          :auteur="post.authorName"
+          :auteurId="post.author"
+          :image="post.postImage"
+          :hashtag="post.description"
+          :contenu="post.content"
+          :id="post.id"
+          :likes="post.likes"
+          :length="postLength"
+          :commentaires="post.commentaire"
+        />
+      </section>
+    </section>
+  </div>
+</template>
+
+
+<script>
+import Posts from "../components/Posts.vue";
+import axios from "axios";
+
+const token = localStorage.getItem("jwt");
+
+export default {
+  name: "App",
+  components: {
+    Posts,
+  },
+  data() {
+    return {
+      showModal: false,
+      is_admin: false,
+      postLength: 0,
+      posts: {
+        id: "",
+        title: "Titre",
+        author: "",
+        authorName: "Nom de l'auteur",
+        postImage: "",
+        description: "Hashtag",
+        content: "",
+        likes: 0,
+        commentaire: {
+          author: "",
+          text: "",
+          createdAt: "",
+        },
+        wholiked: {
+          userId: "",
+          postId: "",
+        },
+      },
+    };
+  },
+  methods: {
+    toggleModal() {
+      this.showModal = !this.showModal;
+    },
+    getPost() {
+        const id = this.$route.params.id;
+      axios
+        .get("http://localhost:5000/api/userposts/" + id, {
+          headers: { Authorization: "Bearer " + token },
+        })
+        .then((response) => {
+          this.posts = response.data;
+          this.getLength(this.posts.length)
+        });
+    },
+    getLength(length) {
+      this.postLength = length;
+    },
+  },
+  created() {
+    this.getPost();
+  },
+};
+</script>
+
+
+<style>
+</style>
