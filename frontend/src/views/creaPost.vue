@@ -140,8 +140,7 @@ export default {
         .post("http://localhost:5000/api/", formData, {
           headers: { Authorization: "Bearer " + token },
         })
-        .then((res) => {
-          console.log(res);
+        .then(() => {
           alert("Votre post a bien été créé");
           this.$router.go(-1);
         })

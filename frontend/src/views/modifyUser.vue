@@ -113,8 +113,7 @@ export default {
         .put("http://localhost:5000/api/admin/users/" + id, this.User[0], {
           headers: { Authorization: "Bearer " + token },
         })
-        .then((res) => {
-          console.log(res);
+        .then(() => {
           this.$router.push("/administration");
           alert("Votre Utilisateur a été modifié avec succès.");
         })

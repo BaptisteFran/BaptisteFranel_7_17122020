@@ -121,10 +121,9 @@ export default {
         .put("http://localhost:5000/api/" + id, this.post[0], {
           headers: { Authorization: "Bearer " + token },
         })
-        .then((res) => {
-          console.log(res);
-          this.$router.push("/post/" + id);
+        .then(() => {
           alert("Votre message a été modifié avec succès.")
+          this.$router.go(-1);
         })
         .catch((error) => {
           alert( "Erreur lors de la modification :" + " " + error.response.data.message);

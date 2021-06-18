@@ -28,13 +28,13 @@
     >
       <i class="fas fa-times"></i>
     </button>
-    <button
+    <a
+      :href="$router.resolve({ name: 'Modify', params: { id: id } }).href"
       v-if="auteurId == userId || admin"
-      @click="modifyPost(id)"
       class="authorModify"
     >
       <i class="fas fa-edit"></i>
-    </button>
+    </a>
   </div>
 </template>
 
@@ -83,19 +83,6 @@ export default {
             alert(error.response.data.message);
           });
       }
-    },
-    modifyPost(id) {
-      axios
-        .get("http://localhost:5000/api/" + id, {
-          headers: { Authorization: "Bearer " + token },
-        })
-        .then((response) => {
-          this.posts = response.data;
-          this.$router.push("/modify/" + id);
-        })
-        .catch((error) => {
-          alert(error.response.data.message);
-        });
     },
   },
 };
@@ -181,5 +168,15 @@ export default {
   background: transparent;
   border: 1px solid #333;
   border-radius: 3px;
+}
+
+.authorModify {
+  grid-column: 2;
+  grid-row: 1;
+  max-width: fit-content;
+  height: fit-content;
+  margin-right: 0;
+  margin-left: 90%;
+  background: transparent;
 }
 </style>
