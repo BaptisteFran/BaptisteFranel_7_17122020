@@ -40,7 +40,7 @@
       <div v-if="passwordError" class="error">{{ passwordError }}</div>
       <div class="terms">
         <input type="checkbox" v-model="terms" required />
-        <label>Accepter les conditions et les termes</label>
+        <label>Accepter les conditions d'utilisateur</label>
       </div>
       <div><button type="submit" class="button">Register</button></div>
     </form>
@@ -145,7 +145,7 @@ export default {
       this.passwordError =
         this.form.password.length > 8
           ? ""
-          : "Votre mot de passe doit conteneir au moins 8 caratères";
+          : "Votre mot de passe doit contenir au moins 8 caratères";
       if (!this.passwordError) {
         if (this.terms) {
           axios

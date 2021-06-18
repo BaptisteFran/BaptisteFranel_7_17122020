@@ -1,5 +1,4 @@
 const userCtrl = require('../API/user')
-//const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
 
 module.exports = app => {

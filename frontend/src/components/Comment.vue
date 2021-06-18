@@ -7,7 +7,7 @@
       <p>Pas de commentaires...</p>
     </div>
     <div v-for="commentaires in postComments" class="comment">
-      <button @click="deleteComment(commentaires.id)" class="deleteButton">
+      <button v-if="userId == commentaires.authorId" @click="deleteComment(commentaires.id)" class="deleteButton">
         <i class="fas fa-times"></i>
       </button>
       <p class="commentAuthor">{{ commentaires.author }}</p>
@@ -21,6 +21,7 @@
     placeholder="Entrez votre commentaire"
     required
   />
+  <!-- Check si auteur du commentaire ou auteur du post -->
   <button @click="postComment" class="commentBtn">Envoyer</button>
 </template>
 
@@ -35,6 +36,7 @@ export default {
   props: ["id", "commentaires"],
   data() {
     return {
+      userId: userId,
       commentArray: [],
       comments: [],
       postComments: [],
