@@ -6,6 +6,7 @@ import Post from '../views/Post.vue'
 import Register from '../views/Register.vue'
 import UserPosts from '../views/User.vue'
 import Admin from '../views/Administration.vue'
+import Modify from '../views/modify.vue'
 import axios from 'axios'
 const token = localStorage.getItem('jwt')
 const userId = localStorage.getItem('userId')
@@ -66,6 +67,14 @@ const routes = [
     meta: {
       requiresAuth: true,
       requiresAdmin: true,
+    }
+  },
+  {
+    path: '/modify/:id',
+    name: 'Modify',
+    component: Modify,
+    meta: {
+      requiresAuth: true,
     }
   }
 ]

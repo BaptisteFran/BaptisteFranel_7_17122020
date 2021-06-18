@@ -22,11 +22,18 @@
     <p id="hashtag">#{{ hashtag }}</p>
     <p id="contenu">{{ contenu }}</p>
     <button
-      v-if="auteurId == canDelete || admin"
+      v-if="auteurId == userId || admin"
       @click="deletePost(id)"
       class="authorDelete"
     >
       <i class="fas fa-times"></i>
+    </button>
+    <button
+      v-if="auteurId == userId || admin"
+      @click="modifyPost(id)"
+      class="authorModify"
+    >
+      <i class="fas fa-edit"></i>
     </button>
   </div>
 </template>
@@ -34,9 +41,9 @@
 <script>
 import Likes from "./Likes.vue";
 import Commentaires from "./Comment.vue";
-import axios from "axios"
+import axios from "axios";
 const userId = localStorage.getItem("userId");
-const token = localStorage.getItem("jwt")
+const token = localStorage.getItem("jwt");
 
 export default {
   props: [
@@ -58,7 +65,7 @@ export default {
   },
   data() {
     return {
-      canDelete: userId,
+      userId: userId,
     };
   },
   methods: {
@@ -76,6 +83,19 @@ export default {
             alert(error.response.data.message);
           });
       }
+    },
+    modifyPost(id) {
+      axios
+        .get("http://localhost:5000/api/" + id, {
+          headers: { Authorization: "Bearer " + token },
+        })
+        .then((response) => {
+          this.posts = response.data;
+          this.$router.push("/modify/" + id);
+        })
+        .catch((error) => {
+          alert(error.response.data.message);
+        });
     },
   },
 };
@@ -152,15 +172,14 @@ export default {
 }
 
 .authorDelete {
-grid-column: 2;
-grid-row: 1;
-max-width: fit-content;
-height: fit-content;
-margin-right: 0;
-margin-left: 95%;
-background: transparent;
-border: 1px solid #333;
-border-radius: 3px;
+  grid-column: 2;
+  grid-row: 1;
+  max-width: fit-content;
+  height: fit-content;
+  margin-right: 0;
+  margin-left: 95%;
+  background: transparent;
+  border: 1px solid #333;
+  border-radius: 3px;
 }
-
 </style>
