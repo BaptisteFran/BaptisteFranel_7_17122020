@@ -43,9 +43,15 @@
             >
               <i class="fas fa-times"></i>
             </button>
-            <button class="actionButton">
+            <a
+              :href="
+                $router.resolve({ name: 'ModifyUser', params: { id: user.id } }).href
+              "
+              v-if="auteurId == userId || admin"
+              class="actionButton"
+            >
               <i class="fas fa-edit"></i>
-            </button>
+            </a>
           </th>
         </tr>
       </tbody>
@@ -189,5 +195,4 @@ table th {
 #deleteBtn {
   color: red;
 }
-
 </style>
