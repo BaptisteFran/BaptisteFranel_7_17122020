@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <section id="main">
-      <section class="container" v-for="post in posts">
+        <section class="container" v-for="post in posts">
         <Posts
           :titre="post.title"
           :auteur="post.authorName"
@@ -13,9 +13,11 @@
           :likes="post.likes"
           :length="postLength"
           :commentaires="post.commentaire"
+          :replycomments="post.commentaire.commentaire"
         />
       </section>
     </section>
+    <button @click="toggleModal">Appuie ici</button>
   </div>
 </template>
 
@@ -49,6 +51,11 @@ export default {
           author: "",
           text: "",
           createdAt: "",
+          reply: {
+            author: "",
+            text: "",
+            createdAt: "",
+          },
         },
         wholiked: {
           userId: "",
@@ -59,17 +66,17 @@ export default {
   },
   methods: {
     toggleModal() {
-      this.showModal = !this.showModal;
+      console.log(this.posts[0].commentaire[0]);
     },
     getPost() {
-        const id = this.$route.params.id;
+      const id = this.$route.params.id;
       axios
         .get("http://localhost:5000/api/" + id, {
           headers: { Authorization: "Bearer " + token },
         })
         .then((response) => {
           this.posts = response.data;
-          this.getLength(this.posts.length)
+          this.getLength(this.posts.length);
         });
     },
     getLength(length) {

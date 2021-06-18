@@ -7,7 +7,7 @@ const models = require('../models');
 
 
 exports.getAllPost = (req, res) => {
-    return db.Post.findAll({ include: [{model: models.comment, as:"commentaire"}, {model: models.wholiked, as:"wholikes"}]})
+    return db.Post.findAll({ include: [{model: models.comment, as:"commentaire", include: [{model: models.commentedComment, as:"reply"}]}, {model: models.wholiked, as:"wholikes"}]})
             .then((posts) => { res.status(200).json(posts) })
             .catch((error) => { res.status(400).json({ error: error }) })
 }
@@ -27,7 +27,7 @@ exports.createPost = (req, res) => {
 }
 
 exports.getOnePost = (req, res) => {
-    return db.Post.findAll({ where: { id: req.params.id }, include: [{model: models.comment, as:"commentaire"}, {model: models.wholiked, as:"wholikes"}]})
+    return db.Post.findAll({ where: { id: req.params.id }, include: [{model: models.comment, as:"commentaire", include: [{model: models.commentedComment, as:"reply"}]}, {model: models.wholiked, as:"wholikes"}]})
         .then((posts) => { res.status(200).json(posts) })
         .catch((error) => {
             res.status(400).json({ error: error })

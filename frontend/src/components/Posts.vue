@@ -18,7 +18,7 @@
     >
     <img v-if="image" :src="'http://localhost:5000/' + image" :alt="image" />
     <Likes :id="id" :likes="likes" :length="length" id="likes" />
-    <Commentaires :id="id" id="commentaires" :commentaires="commentaires" />
+    <Commentaires :id="id" id="commentaires" :commentaires="commentaires" :replycomments="replycomments" />
     <p id="hashtag">#{{ hashtag }}</p>
     <p id="contenu">{{ contenu }}</p>
     <button
@@ -58,6 +58,7 @@ export default {
     "length",
     "commentaires",
     "admin",
+    "replycomments",
   ],
   components: {
     Likes,
@@ -75,8 +76,7 @@ export default {
           .delete("http://localhost:5000/api/" + id, {
             headers: { Authorization: "Bearer " + token },
           })
-          .then((res) => {
-            console.log(res);
+          .then(() => {
             this.$router.go("/");
           })
           .catch((error) => {

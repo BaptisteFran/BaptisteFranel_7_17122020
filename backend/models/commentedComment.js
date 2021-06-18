@@ -2,7 +2,7 @@ const sequelize = require('sequelize');
 
 
 module.exports = function (sequelize, DataTypes) {
-    var comment = sequelize.define('comment', {
+    var commentedComment = sequelize.define('commentedComment', {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
@@ -21,13 +21,11 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: false,
         },
     })
-
-    comment.associate = function (models) {
-        comment.belongsTo(models.Post)
-        comment.hasMany(models.commentedComment, {as: 'reply'})
+    commentedComment.associate = function (models) {
+        commentedComment.belongsTo(models.comment)
     }
 
-    return comment;
+    return commentedComment;
 
 }
 

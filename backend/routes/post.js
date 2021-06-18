@@ -48,7 +48,10 @@ module.exports = app => {
 
     app.post('/api/postcomment/:id', commentCtrl.createComment);
     app.delete('/api/postcomment/:id', commentCtrl.deleteComment);
-    
+
+    // COMMENTS OF COMMENTS
+    app.post('/api/replycomment/:id', commentCtrl.createCommentedComment);
+    app.delete('/api/replycomment/:id', commentCtrl.deleteCommentedComment);
 
     // LIKES 
     app.post('/api/like/:id', likeCtrl.likePost);
