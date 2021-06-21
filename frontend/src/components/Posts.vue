@@ -18,7 +18,12 @@
     >
     <img v-if="image" :src="'http://localhost:5000/' + image" :alt="image" />
     <Likes :id="id" :likes="likes" :length="length" id="likes" />
-    <Commentaires :id="id" id="commentaires" :commentaires="commentaires" :replycomments="replycomments" />
+    <Commentaires
+      :id="id"
+      id="commentaires"
+      :commentaires="commentaires"
+      :replycomments="replycomments"
+    />
     <p id="hashtag">#{{ hashtag }}</p>
     <p id="contenu">{{ contenu }}</p>
     <button
