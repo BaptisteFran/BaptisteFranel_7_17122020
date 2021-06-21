@@ -2,10 +2,13 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const db = require('../models/index');
-const nodemailer = require('nodemailer')
+const nodemailer = require('nodemailer');
+
 
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
     auth: {
         user: 'baptiste.franel@gmail.com',
         pass: 'NpzoSXMn1'
@@ -27,10 +30,10 @@ exports.register = (req, res) => {
         isEmailUnique(req.body.email, function (isUnique) {
             if (isUnique) {
                 const mailOptions = {
-                    from: 'baptiste.franel@gmail.com',
+                    from: 'baptiste.franel@outlook.fr',
                     to: req.body.email,
                     subject: 'Welcome to Groupomania !',
-                    text: 'Vous êtes bien inscrits à Groupomania. Votre login est ' + req.body.email + ' . Veillez à le sauvegarder. En cas de perte de mot de pass, merci de contacter un administrateur ou de faire un mail à votre chef d"équipe.'
+                    html: 'Vous êtes bien inscrits à <h1>Groupomania</h1> '+ req.body.surname +'. <br> Votre login est ' + req.body.email + ' . Veillez à le sauvegarder. <br> En cas de perte de mot de pass, merci de contacter un administrateur ou de faire un mail à votre chef d"équipe.'
                 };
                 if (regexPassword.test(req.body.password)) {
                     bcrypt.hash(req.body.password, 10)

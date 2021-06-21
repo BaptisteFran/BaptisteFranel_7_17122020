@@ -9,6 +9,7 @@ import Admin from '../views/Administration.vue'
 import Modify from '../views/modify.vue'
 import ModifyUser from '../views/modifyUser.vue'
 import axios from 'axios'
+import error from '../views/error.vue'
 const token = localStorage.getItem('jwt')
 const userId = localStorage.getItem('userId')
 
@@ -85,6 +86,14 @@ const routes = [
     meta: {
       requiresAuth: true,
     }
+  },
+  {
+    path: '/error',
+    name: 'error',
+    component: error,
+    meta: {
+      requiresBan: true,
+    }
   }
 ]
 
@@ -95,13 +104,24 @@ const router = new createRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (localStorage.getItem('user_rights') == 0) {
+      next({ name: 'error' })
+    }
     if (localStorage.getItem('jwt') == null) {
       next({
         path: '/login',
         params: { nextUrl: to.fullPath }
       })
     } else {
-      if (to.matched.some(record => record.meta.requiresAdmin)) {
+      if (to.matched.some(record => record.meta.requiresBan)) {
+        if (localStorage.getItem('user_rights') == 0) {
+          next({
+            path: '/error',
+            params: { nextUrl: to.fullPath }
+          })
+        }
+      }
+      else if (to.matched.some(record => record.meta.requiresAdmin)) {
         if (localStorage.getItem('user_rights') != 768) {
           next({ name: 'Home' })
         } else {

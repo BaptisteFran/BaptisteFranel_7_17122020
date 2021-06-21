@@ -1,6 +1,9 @@
 <template>
-<input type="text" v-model="search" placeholder="Recherche.."/>
-  <div v-for="post in postsFiltered">
+  <input type="text" v-model="search" placeholder="Recherche.." />
+  <div v-if="postLength == 0">
+    <p>Aucun post à afficher...</p>
+  </div>
+  <div v-else v-for="post in postsFiltered">
     <Posts
       :titre="post.title"
       :auteur="post.authorName"
@@ -33,7 +36,7 @@ export default {
   },
   data() {
     return {
-      search: '',
+      search: "",
       showModal: false,
       is_admin: false,
       postLength: 0,
@@ -96,7 +99,6 @@ export default {
     },
   },
 };
-
 </script>
 
 <style>
@@ -111,6 +113,4 @@ export default {
   margin: 0;
   padding: 0;
 }
-
-
 </style>
