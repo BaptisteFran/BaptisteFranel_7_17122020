@@ -39,3 +39,11 @@ Exemple :
         pass: 'motdepasses3cur1s3**'
     }
 });`
+
+
+###### Gestion des droits utilisateurs :
+
+Les utilisateurs ont pour l'instant 3 niveaux de droits différents.
+0 : Utilisateur banni
+1 : Utilisateur
+768 : Administrateur
