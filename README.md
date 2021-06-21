@@ -1,6 +1,4 @@
-# Projet 7 - WIP
-
-## Groupomania
+# Groupomania
 
 ###### Comment l'installer ?
 
