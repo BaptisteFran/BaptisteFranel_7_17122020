@@ -1,5 +1,5 @@
 <template>
-  <span class="commentIcon" @click="focusInput"
+  <span class="commentIcon" @click="showCommentInput"
     ><i class="fas fa-comments"></i
   ></span>
   <div class="commentaires">
@@ -26,27 +26,31 @@
           <i class="fas fa-times"></i>
         </span>
       </div>
-      <input
-        v-model="Commentreplytext[commentaires.id]"
-        type="text"
-        placeholder="Répondre..."
-        required
-      />
-      <button @click="replyComment(commentaires.id)" class="commentBtn">
-        Envoyer
-      </button>
+      <div class="reply">
+        <input
+          class="replyInput"
+          v-model="Commentreplytext[commentaires.id]"
+          type="text"
+          placeholder="Répondre..."
+          required
+        />
+        <button @click="replyComment(commentaires.id)" class="replyBtn">
+          Envoyer
+        </button>
+      </div>
     </div>
   </div>
-  <input
-    v-model="comment.text"
-    class="commentsinput"
-    :id="id"
-    type="text"
-    placeholder="Entrez votre commentaire"
-    required
-  />
-  <!-- Check si auteur du commentaire ou auteur du post -->
-  <button @click="postComment" class="commentBtn">Envoyer</button>
+  <div v-if="isCommenting" class="commentPost">
+    <input
+      v-model="comment.text"
+      class="commentsinput"
+      :id="id"
+      type="text"
+      placeholder="Entrez votre commentaire"
+      required
+    />
+    <button @click="postComment" class="commentBtn">Envoyer</button>
+  </div>
 </template>
 
 <script>
@@ -60,6 +64,7 @@ export default {
   props: ["id", "commentaires", "replycomments"],
   data() {
     return {
+      isCommenting: false,
       userId: userId,
       commentArray: [],
       comments: [],
@@ -71,7 +76,7 @@ export default {
         text: "",
         PostId: "",
       },
-      reply:{
+      reply: {
         author: username,
         authorId: userId,
         text: "",
@@ -81,40 +86,48 @@ export default {
     };
   },
   methods: {
-    focusInput() {
-      document.getElementById(this.id).focus();
+    showCommentInput() {
+      this.isCommenting = !this.isCommenting;
     },
     postComment() {
       this.comment.PostId = this.id;
-      axios
-        .post(
-          "http://localhost:5000/api/postcomment/" + this.id,
-          this.comment,
-          {
-            headers: { Authorization: "Bearer " + token },
-          }
-        )
-        .then((res) => {
-          console.log(res);
-          this.$router.go(this.$router.currentRoute);
-        })
-        .catch((error) => {
-          alert(error.response.data.message);
-        });
+      if (this.comment.text == "") {
+        alert("Votre commentaire ne peut pas être vide.");
+      } else {
+        axios
+          .post(
+            "http://localhost:5000/api/postcomment/" + this.id,
+            this.comment,
+            {
+              headers: { Authorization: "Bearer " + token },
+            }
+          )
+          .then((res) => {
+            console.log(res);
+            this.$router.go(this.$router.currentRoute);
+          })
+          .catch((error) => {
+            alert(error.response.data.message);
+          });
+      }
     },
     replyComment(id) {
       this.reply.text = this.Commentreplytext[id];
       this.reply.commentId = id;
-      axios
-        .post("http://localhost:5000/api/replycomment/" + id, this.reply, {
-          headers: { Authorization: "Bearer " + token },
-        })
-        .then(() => {
-          this.$router.go(this.$router.currentRoute);
-        })
-        .catch((error) => {
-          alert(error.response.data.message);
-        });
+      if (this.reply.text == "") {
+        alert("Votre commentaire ne peut pas être vide.");
+      } else {
+        axios
+          .post("http://localhost:5000/api/replycomment/" + id, this.reply, {
+            headers: { Authorization: "Bearer " + token },
+          })
+          .then(() => {
+            this.$router.go(this.$router.currentRoute);
+          })
+          .catch((error) => {
+            alert(error.response.data.message);
+          });
+      }
     },
     deleteComment(id) {
       axios
@@ -215,5 +228,38 @@ export default {
   margin-right: 0;
   margin-left: 95%;
   margin-top: 2rem;
+}
+
+.reply {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1;
+  margin: auto;
+}
+
+.replyInput {
+  grid-column: 2;
+  grid-row: 1;
+  margin: auto;
+  height: 2rem;
+  margin-right: 5rem;
+}
+
+.replyBtn {
+  grid-column: 2/3;
+  grid-row: 1;
+  max-width: 5rem;
+  height: 2rem;
+  margin: auto;
+  margin-right: 0;
+}
+
+.commentPost {
+  grid-row: 8;
+  grid-column: 1/3;
+  display: grid;
+  grid-template-rows: 1;
+  grid-template-columns: 2;
+  margin: auto;
 }
 </style>

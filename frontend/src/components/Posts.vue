@@ -161,15 +161,27 @@ export default {
 }
 
 .commentsinput {
-  grid-row: 8;
-  margin: auto;
+  grid-row: 1;
   grid-column: 1;
+  max-width: 50rem;
+  margin-left: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-right: 0;
+  height: 3rem;
+  border: 1px solid #333;
+  border-right: none;
 }
 
 .commentBtn {
-  grid-row: 8;
+  grid-row: 1;
   grid-column: 2;
-  max-width: 20%;
+  width: 5rem;
+  height: 3rem;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-right: auto;
+  margin-left: 0;
 }
 
 .authorDelete {
