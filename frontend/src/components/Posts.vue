@@ -100,7 +100,7 @@ export default {
 .posts {
   display: grid;
   grid-template-rows: auto;
-  grid-template-columns: auto;
+  grid-template-columns: repeat(2, 1fr);
   max-width: 70%;
   margin: auto;
   background: white;
@@ -129,8 +129,8 @@ export default {
   margin: auto;
   margin-top: 1rem;
   margin-bottom: 1rem;
+  max-width: 100%;
   height: auto;
-  width: 30rem;
 }
 
 .hashtag {
@@ -141,7 +141,8 @@ export default {
 
 .actionBtn {
   grid-row: 4;
-  grid-column: 1/3;
+  grid-column: 1;
+  margin-left: 15rem;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
 }
@@ -150,6 +151,7 @@ export default {
   grid-row: 4;
   grid-column: 2;
   margin: auto;
+  margin-right: 20rem;
 }
 
 .contenu {
@@ -158,18 +160,16 @@ export default {
   font-style: normal;
 }
 
-#commentsinput {
+.commentsinput {
   grid-row: 8;
-  max-width: 70%;
   margin: auto;
-  grid-column: 1/3;
+  grid-column: 1;
 }
 
 .commentBtn {
   grid-row: 8;
   grid-column: 2;
   max-width: 20%;
-  margin-left: 70%;
 }
 
 .authorDelete {
@@ -177,11 +177,11 @@ export default {
   grid-row: 1;
   max-width: fit-content;
   height: fit-content;
-  margin-right: 0;
-  margin-left: 95%;
   background: transparent;
   border: 1px solid #333;
   border-radius: 3px;
+  position: absolute;
+  right: 17%;
 }
 
 .authorModify {
@@ -189,8 +189,9 @@ export default {
   grid-row: 1;
   max-width: fit-content;
   height: fit-content;
-  margin-right: 0;
-  margin-left: 90%;
+  position: absolute;
+  right: 22%;
   background: transparent;
 }
+
 </style>

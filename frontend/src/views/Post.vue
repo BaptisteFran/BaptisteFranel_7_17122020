@@ -17,7 +17,6 @@
         />
       </section>
     </section>
-    <button @click="toggleModal">Appuie ici</button>
   </div>
 </template>
 
@@ -65,9 +64,6 @@ export default {
     };
   },
   methods: {
-    toggleModal() {
-      console.log(this.posts[0].commentaire[0]);
-    },
     getPost() {
       const id = this.$route.params.id;
       axios

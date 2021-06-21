@@ -39,6 +39,7 @@
   </div>
   <input
     v-model="comment.text"
+    class="commentsinput"
     :id="id"
     type="text"
     placeholder="Entrez votre commentaire"
