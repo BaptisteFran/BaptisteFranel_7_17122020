@@ -88,6 +88,9 @@ export default {
 
 <style>
 .likes {
+  grid-row: 1;
+  grid-column: 1;
+  margin: auto;
   display: grid;
   grid-template-columns: auto;
   grid-template-rows: auto;

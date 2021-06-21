@@ -17,15 +17,17 @@
       <small>{{ auteur }}</small></a
     >
     <img v-if="image" :src="'http://localhost:5000/' + image" :alt="image" />
-    <Likes :id="id" :likes="likes" :length="length" id="likes" />
+    <div class="actionBtn">
+      <Likes :id="id" :likes="likes" :length="length" id="likes" />
+    </div>
+    <p class="hashtag">#{{ hashtag }}</p>
+    <p class="contenu">{{ contenu }}</p>
     <Commentaires
-      :id="id"
-      id="commentaires"
-      :commentaires="commentaires"
-      :replycomments="replycomments"
-    />
-    <p id="hashtag">#{{ hashtag }}</p>
-    <p id="contenu">{{ contenu }}</p>
+        :id="id"
+        id="commentaires"
+        :commentaires="commentaires"
+        :replycomments="replycomments"
+      />
     <button
       v-if="auteurId == userId || admin"
       @click="deletePost(id)"
@@ -131,22 +133,29 @@ export default {
   width: 30rem;
 }
 
-#hashtag {
+.hashtag {
   grid-row: 5;
   grid-column: 1/3;
   font-size: 0.8em;
 }
 
-#contenu {
-  grid-row: 6;
+.actionBtn {
+  grid-row: 4;
   grid-column: 1/3;
-  font-style: normal;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
 }
 
-#commentIcon {
+.commentIcon {
   grid-row: 4;
   grid-column: 2;
   margin: auto;
+}
+
+.contenu {
+  grid-row: 6;
+  grid-column: 1/3;
+  font-style: normal;
 }
 
 #commentsinput {

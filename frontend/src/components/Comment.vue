@@ -1,5 +1,5 @@
 <template>
-  <span id="commentIcon" @click="focusInput"
+  <span class="commentIcon" @click="focusInput"
     ><i class="fas fa-comments"></i
   ></span>
   <div class="commentaires">
