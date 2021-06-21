@@ -1,5 +1,5 @@
 <template>
-<input type="text" v-model="search" placeholder="Recherche.." />
+<input type="text" v-model="search" placeholder="Recherche.."/>
   <div v-for="post in postsFiltered">
     <Posts
       :titre="post.title"
