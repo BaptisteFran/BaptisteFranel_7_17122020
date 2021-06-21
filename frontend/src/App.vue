@@ -15,6 +15,7 @@ export default {
   },
   data() {
     return {
+      search: "",
       showModal: false,
       is_admin: false,
     };

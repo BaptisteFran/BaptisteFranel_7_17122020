@@ -1,5 +1,6 @@
 <template>
-  <div v-for="post in posts">
+<input type="text" v-model="search" placeholder="Recherche.." />
+  <div v-for="post in postsFiltered">
     <Posts
       :titre="post.title"
       :auteur="post.authorName"
@@ -32,6 +33,7 @@ export default {
   },
   data() {
     return {
+      search: '',
       showModal: false,
       is_admin: false,
       postLength: 0,
@@ -67,7 +69,7 @@ export default {
         })
         .then((response) => {
           this.posts = response.data;
-          this.getLength(this.posts.length)
+          this.getLength(this.posts.length);
         });
     },
     getLength(length) {
@@ -77,7 +79,24 @@ export default {
   beforeMount() {
     this.getPost();
   },
+  computed: {
+    postsFiltered() {
+      // auto completion
+      // commence par / contiennent / pourrait contenir (s'il y a des fautes)
+      if (this.search) {
+        return this.posts.filter((item) => {
+          return this.search
+            .toLowerCase()
+            .split(" ")
+            .every((v) => item.title.toLowerCase().includes(v));
+        });
+      } else {
+        return this.posts;
+      }
+    },
+  },
 };
+
 </script>
 
 <style>
@@ -92,4 +111,6 @@ export default {
   margin: 0;
   padding: 0;
 }
+
+
 </style>
