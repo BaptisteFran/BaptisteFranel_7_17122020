@@ -2,6 +2,15 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const db = require('../models/index');
+const nodemailer = require('nodemailer')
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'baptiste.franel@gmail.com',
+        pass: 'NpzoSXMn1'
+    }
+});
 
 exports.register = (req, res) => {
     const regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -17,6 +26,12 @@ exports.register = (req, res) => {
     if (regexEmail.test(req.body.email)) {
         isEmailUnique(req.body.email, function (isUnique) {
             if (isUnique) {
+                const mailOptions = {
+                    from: 'baptiste.franel@gmail.com',
+                    to: req.body.email,
+                    subject: 'Welcome to Groupomania !',
+                    text: 'Vous êtes bien inscrits à Groupomania. Votre login est ' + req.body.email + ' . Veillez à le sauvegarder. En cas de perte de mot de pass, merci de contacter un administrateur ou de faire un mail à votre chef d"équipe.'
+                };
                 if (regexPassword.test(req.body.password)) {
                     bcrypt.hash(req.body.password, 10)
                         .then(hash => {
@@ -28,7 +43,17 @@ exports.register = (req, res) => {
                                 password: hashPassword,
                                 rights: req.body.rights
                             })
-                                .then((db) => res.send(db))
+                                .then((db) => {
+                                    res.send(db);
+                                    transporter.sendMail(mailOptions, function (error, info) {
+                                        if (error) {
+                                            console.log(error);
+                                        } else {
+                                            console.log('Email sent: ' + info.response);
+                                        }
+                                    });
+
+                                })
                                 .catch(error => res.status(400).json({ error }))
                         })
                 } else {
