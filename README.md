@@ -16,7 +16,7 @@
 
 **Félicitations, votre site est en place ! Vous pouvez commencer à l'utiliser.**
 
-###### Configurer les envois de mail
+###### Configurer les envois de mail :
 
 - Dans votre éditeur, ouvrez le fichier user.js se trouvant des backend/API/
 - Modifiez cette partie :
