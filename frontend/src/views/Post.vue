@@ -1,23 +1,19 @@
 <template>
-  <div class="home">
-    <section id="main">
-        <section class="container" v-for="post in posts">
-        <Posts
-          :titre="post.title"
-          :auteur="post.authorName"
-          :auteurId="post.author"
-          :image="post.postImage"
-          :hashtag="post.description"
-          :contenu="post.content"
-          :id="post.id"
-          :likes="post.likes"
-          :length="postLength"
-          :commentaires="post.commentaire"
-          :replycomments="post.commentaire.commentaire"
-        />
-      </section>
-    </section>
-  </div>
+  <section class="mt-3" v-for="post in posts">
+    <Posts
+      :titre="post.title"
+      :auteur="post.authorName"
+      :auteurId="post.author"
+      :image="post.postImage"
+      :hashtag="post.description"
+      :contenu="post.content"
+      :id="post.id"
+      :likes="post.likes"
+      :length="postLength"
+      :commentaires="post.commentaire"
+      :replycomments="post.commentaire.commentaire"
+    />
+  </section>
 </template>
 
 

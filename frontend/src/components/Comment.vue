@@ -1,55 +1,68 @@
 <template>
-  <span class="commentIcon" @click="showCommentInput"
-    ><i class="fas fa-comments"></i
-  ></span>
   <div class="commentaires">
     <div v-if="noComment">
       <p>Pas de commentaires...</p>
     </div>
     <div v-for="commentaires in postComments" class="comment">
-      <button
-        v-if="userId == commentaires.authorId"
-        @click="deleteComment(commentaires.id)"
-        class="deleteButton"
-      >
-        <i class="fas fa-times"></i>
-      </button>
-      <p class="commentAuthor">{{ commentaires.author }}</p>
-      <p>{{ commentaires.text }}</p>
-      <div v-for="commentreply in commentaires.reply" class="replytocomment">
-        <p>{{ commentreply.author }} : {{ commentreply.text }}</p>
-        <span
-          v-if="userId == commentreply.authorId"
-          @click="deleteReply(commentreply.id)"
-          class="deleteReplyButton"
+      <p class="commentAuthor">
+        {{ commentaires.author }}
+      </p>
+      <p>
+        <button
+          v-if="userId == commentaires.authorId"
+          @click="deleteComment(commentaires.id)"
+          class="deleteButton"
         >
           <i class="fas fa-times"></i>
-        </span>
-      </div>
-      <div class="reply">
-        <input
-          class="replyInput"
-          v-model="Commentreplytext[commentaires.id]"
-          type="text"
-          placeholder="Répondre..."
-          required
-        />
-        <button @click="replyComment(commentaires.id)" class="replyBtn">
-          Envoyer
         </button>
+        {{ commentaires.text }}
+      </p>
+      <div v-for="commentreply in commentaires.reply" class="replytocomment">
+        <p>
+          <span
+            v-if="userId == commentreply.authorId"
+            @click="deleteReply(commentreply.id)"
+            class="deleteReplyButton"
+          >
+            <i class="fas fa-times"></i>
+          </span>
+          {{ commentreply.author }} : {{ commentreply.text }}
+        </p>
+      </div>
+      <div class="row reply">
+        <div class="col-md-6">
+          <input
+            class="replyInput"
+            v-model="Commentreplytext[commentaires.id]"
+            type="text"
+            placeholder="Répondre..."
+            required
+          />
+        </div>
+        <div class="col-md-6">
+          <button
+            @click="replyComment(commentaires.id)"
+            class="btn btn-secondary replyBtn"
+          >
+            Envoyer
+          </button>
+        </div>
       </div>
     </div>
   </div>
-  <div v-if="isCommenting" class="commentPost">
-    <input
-      v-model="comment.text"
-      class="commentsinput"
-      :id="id"
-      type="text"
-      placeholder="Entrez votre commentaire"
-      required
-    />
-    <button @click="postComment" class="commentBtn">Envoyer</button>
+  <div class="card-footer text-muted p-2 row">
+    <div class="col-md-9">
+      <input
+        v-model="comment.text"
+        :id="id"
+        type="text"
+        placeholder="Entrez votre commentaire"
+        required
+      />
+    </div>
+    <div class="col-md-3">
+      <button @click="postComment" class="btn btn-secondary">Envoyer</button>
+    </div>
   </div>
 </template>
 
@@ -64,7 +77,6 @@ export default {
   props: ["id", "commentaires", "replycomments"],
   data() {
     return {
-      isCommenting: false,
       userId: userId,
       commentArray: [],
       comments: [],
@@ -86,9 +98,6 @@ export default {
     };
   },
   methods: {
-    showCommentInput() {
-      this.isCommenting = !this.isCommenting;
-    },
     postComment() {
       this.comment.PostId = this.id;
       if (this.comment.text == "") {
@@ -186,13 +195,27 @@ export default {
 
 
 <style>
+.card-footer {
+  padding: 0;
+  margin: 0;
+}
+
+.card-footer input {
+  width: 100%;
+  margin: auto;
+}
+
+.card-footer button {
+  width: 100%;
+  margin: auto;
+}
+
 .commentaires {
   background: #efefef;
   border-radius: 10px;
   grid-column: 1/3;
   grid-row: 7;
-  margin-bottom: 1rem;
-  margin-top: 1rem;
+  margin: 1rem;
 }
 
 .comment {
@@ -208,58 +231,29 @@ export default {
 }
 
 .deleteButton {
-  grid-column: 2;
-  grid-row: 1;
   max-width: fit-content;
   height: fit-content;
-  margin-right: 0;
-  margin-left: 95%;
-  background: white;
-  border: 1px solid #333;
-  border-radius: 3px;
-  margin-top: 2rem;
+  border: none;
 }
 
 .deleteReplyButton {
-  grid-column: 2;
-  grid-row: 1;
   width: 5px;
   height: 5px;
-  margin-right: 0;
-  margin-left: 95%;
-  margin-top: 2rem;
+  margin-right: 1rem;
 }
 
-.reply {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: 1;
-  margin: auto;
+.deleteReplyButton:hover {
+  cursor: pointer;
 }
 
 .replyInput {
-  grid-column: 2;
-  grid-row: 1;
   margin: auto;
-  height: 2rem;
-  margin-right: 5rem;
+  width: 100%;
+  padding: 0.375rem 0.75rem;
 }
 
 .replyBtn {
-  grid-column: 2/3;
-  grid-row: 1;
-  max-width: 5rem;
-  height: 2rem;
   margin: auto;
   margin-right: 0;
-}
-
-.commentPost {
-  grid-row: 8;
-  grid-column: 1/3;
-  display: grid;
-  grid-template-rows: 1;
-  grid-template-columns: 2;
-  margin: auto;
 }
 </style>

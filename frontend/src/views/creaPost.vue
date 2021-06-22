@@ -1,7 +1,7 @@
 <template>
-  <div id="creaPost">
+  <div id="container">
     <h2>Créer votre publication</h2>
-    <form @submit.prevent="creaPost" id="formCreaPost">
+    <form @submit.prevent="creaPost">
       <div id="title">
         <label for="title">Titre</label>
         <br />
@@ -54,10 +54,6 @@
 </template>
 
 <style>
-#formCreaPost {
-  width: 25rem;
-}
-
 div {
   padding: 1rem;
 }
