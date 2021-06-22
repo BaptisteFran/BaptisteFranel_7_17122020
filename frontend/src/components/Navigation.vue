@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar-bleu bg-bleu">
     <div class="container-fluid">
       <a :href="$router.resolve({ name: 'Home' }).href" class="navbar-brand">
         <img :src="'../images/icon.png'" alt="logo" class="logo-img" />
@@ -14,10 +14,21 @@
         aria-expanded="false"
         aria-label="Toggle navigation"
       >
-        <span class="navbar-toggler-icon"></span>
+        <span class="navbar-toggler-icon">
+          <i class="fas fa-bars"></i>
+        </span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0" v-if="user">
+        <a class="mx-auto mb-2 mb-lg-0"
+          :href="$router.resolve({ name: 'creaPost' }).href"
+        >
+          <input class="createPostInput"
+            type="input"
+            placeholder="Créer un post..."
+            autocomplete="off"
+          />
+        </a>
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0" v-if="user">
           <li class="nav-item">
             <a :href="$router.resolve({ name: 'Home' }).href" class="nav-link">
               Accueil
@@ -58,19 +69,14 @@
               </li>
               <li><hr class="dropdown-divider" /></li>
               <li>
-                <a
-                  @click="deconnect"
-                  class="dropdown-item"
-                >
-                  Deconnexion
-                </a>
+                <a @click="deconnect" class="dropdown-item"> Deconnexion </a>
               </li>
             </ul>
           </li>
           <li class="nav-item"></li>
         </ul>
-        <ul id="ul-nav" v-else>
-          <li>
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0" v-else>
+          <li class="nav-item">
             <a
               class="nav-link"
               :href="$router.resolve({ name: 'Home' }).href"
@@ -79,18 +85,13 @@
               Accueil
             </a>
           </li>
-          <li><router-link to="/Login" class="nav-link">Login</router-link></li>
-          <li>
-            <router-link to="/Register" class="nav-link">Register</router-link>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/Login">Login</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/Register">Register</router-link>
           </li>
         </ul>
-          <a :href="$router.resolve({ name: 'creaPost' }).href">
-              <input
-                type="input"
-                placeholder="Créer un post..."
-                autocomplete="off"
-              />
-          </a>
       </div>
     </div>
   </nav>
@@ -132,59 +133,31 @@ export default {
 
 
 <style>
-#createPostMobile {
-  display: none;
+
+.createPostInput {
+  margin: 0;
 }
 
-#collapse {
-  display: none;
+.navbar-toggler > span > i {
   color: white;
+  margin-top: 0.3rem;
 }
 
 #apph1 {
   color: #f04b4c;
   display: inline-block;
   font-size: 2rem;
+  margin: auto;
+  margin-left: 0;
 }
 
-#deconnectionButton {
-  border: none;
-  background: none;
-  font-weight: bold;
-  color: #fff;
-  font-size: 1rem;
+.navbar-bleu a {
+  color: white;
 }
 
-#deconnectionButton:hover {
-  cursor: pointer;
-}
-
-#router-nav {
-  display: grid;
-  grid-template-columns: min-content;
-}
-
-#nav {
-  display: grid;
-  grid-template-rows: auto;
-  grid-template-columns: repeat(4, 1fr);
-  padding: 0;
+.bg-bleu {
   background-color: #213159;
-  margin-bottom: 5rem;
   box-shadow: 1px 1px 5px #bcb8b1;
-}
-
-#createpost {
-  grid-row: 1;
-  grid-column: 3/4;
-  display: grid;
-  grid-template-columns: 1;
-  grid-template-rows: 1;
-}
-
-#createpost input {
-  width: 100%;
-  margin-left: 50%;
 }
 
 .logo {
@@ -201,64 +174,17 @@ export default {
   margin-right: 1rem;
 }
 
-#logo h1 {
-  grid-row: 1;
-  grid-column: 2;
-  margin: auto;
-  margin-left: 0;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #fff;
-  text-decoration: none;
-}
-
-#ul-nav {
-  list-style: none;
-  text-align: right;
-  grid-column: 3/5;
-}
-
-#ul-nav li {
-  display: inline-block;
-  color: white;
-  margin: 1rem;
-}
-
 #nav a.router-link-exact-active {
   color: #b94642;
+}
+
+.dropdown-menu > li > a {
+  color: #333;
 }
 
 @media only screen and (max-width: 1024px) {
   #apph1 {
     display: none;
-  }
-
-  #createPostMobile {
-    display: block;
-    margin-top: 1rem;
-    margin-left: 3rem;
-  }
-
-  #createpost input {
-    display: none;
-  }
-
-  #nav li {
-    display: none;
-  }
-
-  .active {
-    display: block;
-    margin: auto;
-  }
-
-  #collapse {
-    display: block;
-    color: white;
-    margin-right: 25%;
-    margin-top: 1rem;
   }
 }
 </style>

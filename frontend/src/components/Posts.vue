@@ -16,7 +16,7 @@
     >
       <small>{{ auteur }}</small></a
     >
-    <img v-if="image" :src="'http://localhost:5000/' + image" :alt="image" />
+    <img v-if="image" class="img-fluid" :src="'http://localhost:5000/' + image" :alt="image" />
     <div class="actionBtn">
       <Likes :id="id" :likes="likes" :length="length" id="likes" />
     </div>
