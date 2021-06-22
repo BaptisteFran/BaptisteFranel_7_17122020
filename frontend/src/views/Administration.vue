@@ -1,6 +1,8 @@
 <template>
-  <button @click="showPost">Posts</button>
-  <button @click="showUsers">Users</button>
+  <div class="toggleBtn">
+    <button @click="showPost">Posts</button>
+    <button @click="showUsers">Users</button>
+  </div>
   <div v-if="showPostData && !showUsersData" v-for="post in posts">
     <Posts
       :titre="post.title"
@@ -16,7 +18,7 @@
       :admin="is_admin"
     />
   </div>
-  <div v-if="showUsersData && !showPostData">
+  <div v-if="showUsersData && !showPostData" class="table-container">
     <table class="scroll">
       <thead>
         <tr>
@@ -45,7 +47,8 @@
             </button>
             <a
               :href="
-                $router.resolve({ name: 'ModifyUser', params: { id: user.id } }).href
+                $router.resolve({ name: 'ModifyUser', params: { id: user.id } })
+                  .href
               "
               v-if="auteurId == userId || admin"
               class="actionButton"
@@ -173,18 +176,38 @@ export default {
   margin: auto;
 }
 
-table {
+.table-container {
   margin: auto;
+  max-width: fit-content;
   margin-top: 2rem;
   background: white;
   border-radius: 5px;
   padding: 2rem;
 }
 
+table {
+  margin: auto;
+  background: white;
+  border-radius: 5px;
+  padding: 2rem;
+  border-collapse: collapse;
+}
+
+table thead th {
+  border: none;
+}
+
 table th {
   padding: 1rem;
   margin: auto;
+  border-top: 1px solid #333;
 }
+
+table tr:hover {
+  background-color: rgb(231, 231, 231);
+}
+
+
 
 .actionButton {
   border: none;
@@ -195,4 +218,21 @@ table th {
 #deleteBtn {
   color: red;
 }
+
+.toggleBtn button {
+  margin: 2rem;
+  padding: 0.5rem;
+  border: 1px solid #333;
+  border-radius: 2px;
+}
+
+.toggleBtn button:hover {
+  margin: 2rem;
+  padding: 0.5rem;
+  background-color: #d8e2dc;
+  border: 1px solid #333;
+  border-radius: 2px;
+}
+
+
 </style>

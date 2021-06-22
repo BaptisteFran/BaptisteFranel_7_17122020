@@ -1,39 +1,98 @@
 <template>
-  <nav id="nav">
-    <div id="logo">
-      <a :href="$router.resolve({ name: 'Home' }).href" id="router-nav">
-        <img :src="'../images/icon.png'" alt="logo" />
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a :href="$router.resolve({ name: 'Home' }).href" class="navbar-brand">
+        <img :src="'../images/icon.png'" alt="logo" class="logo-img" />
         <h1 id="apph1">Groupomania</h1>
       </a>
-    </div>
-    <a :href="$router.resolve({ name: 'creaPost' }).href">
-      <div id="createpost">
-        <input type="input" placeholder="Créer un post..." autocomplete="off" />
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0" v-if="user">
+          <li class="nav-item">
+            <a :href="$router.resolve({ name: 'Home' }).href" class="nav-link">
+              Accueil
+            </a>
+          </li>
+          <li class="nav-item"></li>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="navbarDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Compte
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li v-if="admin">
+                <a
+                  class="dropdown-item"
+                  :href="$router.resolve({ name: 'Admin' }).href"
+                  >Administration</a
+                >
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  :href="
+                    $router.resolve({
+                      name: 'userposts',
+                      params: { id: userId },
+                    }).href
+                  "
+                >
+                  <strong>{{ username }}</strong>
+                </a>
+              </li>
+              <li><hr class="dropdown-divider" /></li>
+              <li>
+                <a
+                  @click="deconnect"
+                  class="dropdown-item"
+                >
+                  Deconnexion
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item"></li>
+        </ul>
+        <ul id="ul-nav" v-else>
+          <li>
+            <a
+              class="nav-link"
+              :href="$router.resolve({ name: 'Home' }).href"
+              id="router-nav"
+            >
+              Accueil
+            </a>
+          </li>
+          <li><router-link to="/Login" class="nav-link">Login</router-link></li>
+          <li>
+            <router-link to="/Register" class="nav-link">Register</router-link>
+          </li>
+        </ul>
+          <a :href="$router.resolve({ name: 'creaPost' }).href">
+              <input
+                type="input"
+                placeholder="Créer un post..."
+                autocomplete="off"
+              />
+          </a>
       </div>
-    </a>
-    <ul id="ul-nav" v-if="user">
-      <a :href="$router.resolve({name: 'userposts', params: { id: userId }}).href">
-        <li id="username">
-          <strong>{{ username }}</strong>
-        </li>
-      </a>
-      <a :href="$router.resolve({name: 'Admin'}).href">
-        <li v-if="admin">Administration</li>
-      </a>
-      <li>
-        <a :href="$router.resolve({ name: 'Home' }).href" id="router-nav"> Accueil </a>
-      </li>
-      <li>
-      </li>
-      <li>
-        <button @click="deconnect" id="deconnectionButton">Deconnexion</button>
-      </li>
-    </ul>
-    <ul id="ul-nav" v-else>
-      <li><a :href="$router.resolve({ name: 'Home' }).href" id="router-nav"> Accueil </a></li>
-      <li><router-link to="/Login">Login</router-link></li>
-      <li><router-link to="/Register">Register</router-link></li>
-    </ul>
+    </div>
   </nav>
 </template>
 
@@ -46,6 +105,7 @@ export default {
   props: ["admin"],
   data() {
     return {
+      showList: false,
       user: false,
       username: username,
       userId: userId,
@@ -72,21 +132,19 @@ export default {
 
 
 <style>
+#createPostMobile {
+  display: none;
+}
+
+#collapse {
+  display: none;
+  color: white;
+}
+
 #apph1 {
   color: #f04b4c;
   display: inline-block;
-}
-
-.color-change-2x {
-  animation: color-change-2x 2s linear infinite alternate both;
-}
-@keyframes color-change-2x {
-  0% {
-    color: #19dcea;
-  }
-  100% {
-    color: #b22cff;
-  }
+  font-size: 2rem;
 }
 
 #deconnectionButton {
@@ -119,6 +177,9 @@ export default {
 #createpost {
   grid-row: 1;
   grid-column: 3/4;
+  display: grid;
+  grid-template-columns: 1;
+  grid-template-rows: 1;
 }
 
 #createpost input {
@@ -126,16 +187,14 @@ export default {
   margin-left: 50%;
 }
 
-#logo {
+.logo {
   text-align: left;
   margin-top: auto;
   margin-bottom: auto;
   margin-left: 1rem;
 }
 
-#logo img {
-  grid-row: 1;
-  grid-column: 1;
+.logo-img {
   max-height: 3rem;
   margin: auto;
   margin-left: 0;
@@ -169,5 +228,37 @@ export default {
 
 #nav a.router-link-exact-active {
   color: #b94642;
+}
+
+@media only screen and (max-width: 1024px) {
+  #apph1 {
+    display: none;
+  }
+
+  #createPostMobile {
+    display: block;
+    margin-top: 1rem;
+    margin-left: 3rem;
+  }
+
+  #createpost input {
+    display: none;
+  }
+
+  #nav li {
+    display: none;
+  }
+
+  .active {
+    display: block;
+    margin: auto;
+  }
+
+  #collapse {
+    display: block;
+    color: white;
+    margin-right: 25%;
+    margin-top: 1rem;
+  }
 }
 </style>

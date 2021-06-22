@@ -24,7 +24,7 @@ module.exports = function (sequelize, DataTypes) {
 
     comment.associate = function (models) {
         comment.belongsTo(models.Post)
-        comment.hasMany(models.commentedComment, {as: 'reply'})
+        comment.hasMany(models.commentedComment, { as: 'reply' })
     }
 
     return comment;

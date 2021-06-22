@@ -1,21 +1,21 @@
 <template>
-  <div class="home">
-    <section id="main">
-      <section class="container" v-for="post in posts">
-        <Posts
-          :titre="post.title"
-          :auteur="post.authorName"
-          :auteurId="post.author"
-          :image="post.postImage"
-          :hashtag="post.description"
-          :contenu="post.content"
-          :id="post.id"
-          :likes="post.likes"
-          :length="postLength"
-          :commentaires="post.commentaire"
-        />
-      </section>
-    </section>
+  <input type="text" v-model="search" placeholder="Recherche.." />
+  <div v-if="postLength == 0">
+    <p>Aucun post à afficher...</p>
+  </div>
+  <div v-else v-for="post in postsFiltered">
+    <Posts
+      :titre="post.title"
+      :auteur="post.authorName"
+      :auteurId="post.author"
+      :image="post.postImage"
+      :hashtag="post.description"
+      :contenu="post.content"
+      :id="post.id"
+      :likes="post.likes"
+      :length="postLength"
+      :commentaires="post.commentaire"
+    />
   </div>
 </template>
 
@@ -33,6 +33,7 @@ export default {
   },
   data() {
     return {
+      search: '',
       showModal: false,
       is_admin: false,
       postLength: 0,
@@ -78,6 +79,22 @@ export default {
   },
   created() {
     this.getPost();
+  },
+  computed: {
+    postsFiltered() {
+      // auto completion
+      // commence par / contiennent / pourrait contenir (s'il y a des fautes)
+      if (this.search) {
+        return this.posts.filter((item) => {
+          return this.search
+            .toLowerCase()
+            .split(" ")
+            .every((v) => item.title.toLowerCase().includes(v));
+        });
+      } else {
+        return this.posts;
+      }
+    },
   },
 };
 </script>

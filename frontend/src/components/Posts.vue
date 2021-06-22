@@ -23,11 +23,11 @@
     <p class="hashtag">#{{ hashtag }}</p>
     <p class="contenu">{{ contenu }}</p>
     <Commentaires
-        :id="id"
-        id="commentaires"
-        :commentaires="commentaires"
-        :replycomments="replycomments"
-      />
+      :id="id"
+      id="commentaires"
+      :commentaires="commentaires"
+      :replycomments="replycomments"
+    />
     <button
       v-if="auteurId == userId || admin"
       @click="deletePost(id)"
@@ -77,11 +77,13 @@ export default {
     };
   },
   methods: {
-    deletePost(id) {
+    deletePost(id, image) {
+      image = this.image;
       if (confirm("Voulez-vous vraiment supprimer ce post ?")) {
         axios
           .delete("http://localhost:5000/api/" + id, {
             headers: { Authorization: "Bearer " + token },
+            data: { postimg: image },
           })
           .then(() => {
             this.$router.go("/");
@@ -205,5 +207,4 @@ export default {
   right: 22%;
   background: transparent;
 }
-
 </style>

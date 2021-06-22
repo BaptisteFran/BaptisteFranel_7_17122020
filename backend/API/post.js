@@ -1,15 +1,12 @@
-const conn = require('../config/dbConfig');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 const fs = require('fs');
 const db = require('../models/index');
 const models = require('../models');
 
 
 exports.getAllPost = (req, res) => {
-    return db.Post.findAll({ include: [{model: models.comment, as:"commentaire", include: [{model: models.commentedComment, as:"reply"}]}, {model: models.wholiked, as:"wholikes"}]})
-            .then((posts) => { res.status(200).json(posts) })
-            .catch((error) => { res.status(400).json({ error: error }) })
+    return db.Post.findAll({ include: [{ model: models.comment, as: "commentaire", include: [{ model: models.commentedComment, as: "reply" }] }, { model: models.wholiked, as: "wholikes" }] })
+        .then((posts) => { res.status(200).json(posts) })
+        .catch((error) => { res.status(400).json({ error: error }) })
 }
 
 exports.createPost = (req, res) => {
@@ -27,7 +24,7 @@ exports.createPost = (req, res) => {
 }
 
 exports.getOnePost = (req, res) => {
-    return db.Post.findAll({ where: { id: req.params.id }, include: [{model: models.comment, as:"commentaire", include: [{model: models.commentedComment, as:"reply"}]}, {model: models.wholiked, as:"wholikes"}]})
+    return db.Post.findAll({ where: { id: req.params.id }, include: [{ model: models.comment, as: "commentaire", include: [{ model: models.commentedComment, as: "reply" }] }, { model: models.wholiked, as: "wholikes" }] })
         .then((posts) => { res.status(200).json(posts) })
         .catch((error) => {
             res.status(400).json({ error: error })
@@ -35,10 +32,20 @@ exports.getOnePost = (req, res) => {
 }
 
 exports.deletePost = (req, res) => {
-    return db.Post.destroy({ where: { id: req.params.id } })
-    .then(() => res.status(200).json({message:"Element supprimé"}))
-    .catch(error => res.status(400).json({ error }))
+    db.Post.findAll({ where: { id: req.params.id } })
+        .then(() => {
+            console.log(req.body.postimg)
+            let filename = req.body.postimg.split("upload\\")[1];
+            fs.unlink(`upload/${filename}`, () => {
+                db.Post.destroy({ where: {id: req.params.id }})
+                    .then(() => res.status(200).json({ message: 'Post supprimé !' }))
+                    .catch(error => res.status(400).json({ error }));
+            })
+        }).catch((error) => res.status(500).json({ error }))
 }
+
+
+
 
 exports.modifyPost = (req, res) => {
     return db.Post.update({
@@ -54,9 +61,9 @@ exports.modifyPost = (req, res) => {
 }
 
 exports.getUserPosts = (req, res) => {
-    return db.Post.findAll({ where: { author: req.params.id }, include: [{model: models.comment, as:"commentaire"}, {model: models.wholiked, as:"wholikes"}]})
+    return db.Post.findAll({ where: { author: req.params.id }, include: [{ model: models.comment, as: "commentaire" }, { model: models.wholiked, as: "wholikes" }] })
         .then((posts) => { res.status(200).json(posts) })
-        .catch((error) => { 
+        .catch((error) => {
             res.status(400).json({ error: error })
         })
 }
