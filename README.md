@@ -19,6 +19,8 @@
 - Dans votre éditeur, ouvrez le fichier user.js se trouvant des backend/API/
 - Modifiez cette partie :
 
+// VARIABLE ENVIRONNEMENT
+
 `const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 465,
@@ -39,6 +41,8 @@ Exemple :
         pass: 'motdepasses3cur1s3**'
     }
 });`
+
+
 
 
 ###### Gestion des droits utilisateurs :
