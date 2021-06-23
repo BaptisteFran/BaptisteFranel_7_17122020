@@ -10,7 +10,7 @@
 - Installer une base de donnée MySQL (Wamp dans mon exemple)
 - Dans le dossier .env, renseignez les informations de votre base de données
 - Retournez sur votre console terminal, dans le dossier backend, tapez "npm run dev"
-- Dans le terminal, dans le dossier frontend, tapez "npm run serv"
+- Dans le terminal, dans le dossier frontend, tapez "npm run serve"
 
 **Félicitations, votre site est en place ! Vous pouvez commencer à l'utiliser.**
 
