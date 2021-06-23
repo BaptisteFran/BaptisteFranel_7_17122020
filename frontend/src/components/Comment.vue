@@ -5,7 +5,7 @@
     </div>
     <div v-for="commentaires in postComments" class="comment">
       <p class="commentAuthor">
-        {{ commentaires.author }}
+        Par : {{ commentaires.author }}, le : {{ commentaires.created_at}}
       </p>
       <p>
         <button
@@ -87,12 +87,14 @@ export default {
         authorId: userId,
         text: "",
         PostId: "",
+        created_at: "",
       },
       reply: {
         author: username,
         authorId: userId,
         text: "",
         commentId: "",
+        created_at: "",
       },
       Commentreplytext: [],
     };
