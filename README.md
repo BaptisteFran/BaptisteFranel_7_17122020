@@ -16,31 +16,16 @@
 
 ###### Configurer les envois de mail :
 
-- Dans votre éditeur, ouvrez le fichier user.js se trouvant des backend/API/
+- Dans votre éditeur, ouvrez le fichier .env se trouvant des backend/
 - Modifiez cette partie :
 
-// VARIABLE ENVIRONNEMENT
 
-`const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
-    auth: {
-        user: 'VOTRE_NOM_UTILISATEUR',
-        pass: 'VOTRE_MOT_DE_PASS'
-    }
-});`
+`
+EMAIL_ADDRESS = votre_email
+EMAIL_PASSWORD = votre_mot_de_passe
+EMAIL_HOST = votre_serveur_smpt
+`
 
-Exemple : 
-`const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
-    auth: {
-        user: 'groupomania@gmail.com',
-        pass: 'motdepasses3cur1s3**'
-    }
-});`
 
 
 
