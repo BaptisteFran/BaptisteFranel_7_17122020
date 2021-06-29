@@ -19,67 +19,119 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-exports.firstRegister = (req, res) => {
-    db.User.count()
-    .then(count => {
-        console.log(count);
-    })
-}
-
 exports.register = (req, res) => {
-    const regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    const regexPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    db.User.count()
+        .then(count => {
+            if (count == 0) {
+                const regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+                const regexPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 
-    function isEmailUnique(email, done) {
-        db.User.count({ where: { email: email } })
-            .then(count => {
-                done(count == 0);
-            });
-    }
+                function isEmailUnique(email, done) {
+                    db.User.count({ where: { email: email } })
+                        .then(count => {
+                            done(count == 0);
+                        });
+                }
 
-    if (regexEmail.test(req.body.email)) {
-        isEmailUnique(req.body.email, function (isUnique) {
-            if (isUnique) {
-                const mailOptions = {
-                    from: 'baptiste.franel@outlook.fr',
-                    to: req.body.email,
-                    subject: 'Welcome to Groupomania !',
-                    html: 'Vous êtes bien inscrits à <h1>Groupomania</h1> '+ req.body.surname +'. <br> Votre login est ' + req.body.email + ' . Veillez à le sauvegarder. <br> En cas de perte de mot de pass, merci de contacter un administrateur ou de faire un mail à votre chef d"équipe.'
-                };
-                if (regexPassword.test(req.body.password)) {
-                    bcrypt.hash(req.body.password, 10)
-                        .then(hash => {
-                            let hashPassword = hash
-                            return db.User.create({
-                                name: req.body.name,
-                                surname: req.body.surname,
-                                email: req.body.email,
-                                password: hashPassword,
-                                rights: req.body.rights
-                            })
-                                .then((db) => {
-                                    res.send(db);
-                                    transporter.sendMail(mailOptions, function (error, info) {
-                                        if (error) {
-                                            console.log(error);
-                                        } else {
-                                            console.log('Email sent: ' + info.response);
-                                        }
-                                    });
+                if (regexEmail.test(req.body.email)) {
+                    isEmailUnique(req.body.email, function (isUnique) {
+                        if (isUnique) {
+                            const mailOptions = {
+                                from: email_address,
+                                to: req.body.email,
+                                subject: 'Welcome to Groupomania !',
+                                html: 'Vous êtes bien inscrits à <h1>Groupomania</h1> ' + req.body.surname + '. <br> Votre login est ' + req.body.email + ' . Veillez à le sauvegarder. <br> En cas de perte de mot de pass, merci de contacter un administrateur ou de faire un mail à votre chef d"équipe.'
+                            };
+                            if (regexPassword.test(req.body.password)) {
+                                bcrypt.hash(req.body.password, 10)
+                                    .then(hash => {
+                                        let hashPassword = hash
+                                        return db.User.create({
+                                            name: req.body.name,
+                                            surname: req.body.surname,
+                                            email: req.body.email,
+                                            password: hashPassword,
+                                            rights: 768
+                                        })
+                                            .then((db) => {
+                                                res.send(db);
+                                                transporter.sendMail(mailOptions, function (error, info) {
+                                                    if (error) {
+                                                        console.log(error);
+                                                    } else {
+                                                        console.log('Email sent: ' + info.response);
+                                                    }
+                                                });
 
-                                })
-                                .catch(error => res.status(400).json({ error }))
-                        })
+                                            })
+                                            .catch(error => res.status(400).json({ error }))
+                                    })
+                            } else {
+                                res.status(500).json({ message: "Mauvais format de mot de passe" })
+                            }
+                        } else {
+                            res.status(500).json({ message: "L'adresse mail n'est pas unique !" })
+                        }
+                    })
                 } else {
-                    res.status(500).json({ message: "Mauvais format de mot de passe" })
+                    res.status(500).json({ message: "Mauvais format d'email'" })
                 }
             } else {
-                res.status(500).json({ message: "L'adresse mail n'est pas unique !" })
+                const regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+                const regexPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+
+                function isEmailUnique(email, done) {
+                    db.User.count({ where: { email: email } })
+                        .then(count => {
+                            done(count == 0);
+                        });
+                }
+
+                if (regexEmail.test(req.body.email)) {
+                    isEmailUnique(req.body.email, function (isUnique) {
+                        if (isUnique) {
+                            const mailOptions = {
+                                from: email_address,
+                                to: req.body.email,
+                                subject: 'Welcome to Groupomania !',
+                                html: 'Vous êtes bien inscrits à <h1>Groupomania</h1> ' + req.body.surname + '. <br> Votre login est ' + req.body.email + ' . Veillez à le sauvegarder. <br> En cas de perte de mot de pass, merci de contacter un administrateur ou de faire un mail à votre chef d"équipe.'
+                            };
+                            if (regexPassword.test(req.body.password)) {
+                                bcrypt.hash(req.body.password, 10)
+                                    .then(hash => {
+                                        let hashPassword = hash
+                                        return db.User.create({
+                                            name: req.body.name,
+                                            surname: req.body.surname,
+                                            email: req.body.email,
+                                            password: hashPassword,
+                                            rights: req.body.rights
+                                        })
+                                            .then((db) => {
+                                                res.send(db);
+                                                transporter.sendMail(mailOptions, function (error, info) {
+                                                    if (error) {
+                                                        console.log(error);
+                                                    } else {
+                                                        console.log('Email sent: ' + info.response);
+                                                    }
+                                                });
+
+                                            })
+                                            .catch(error => res.status(400).json({ error }))
+                                    })
+                            } else {
+                                res.status(500).json({ message: "Mauvais format de mot de passe" })
+                            }
+                        } else {
+                            res.status(500).json({ message: "L'adresse mail n'est pas unique !" })
+                        }
+                    })
+                } else {
+                    res.status(500).json({ message: "Mauvais format d'email'" })
+                }
             }
         })
-    } else {
-        res.status(500).json({ message: "Mauvais format d'email'" })
-    }
 }
 
 exports.login = (req, res, next) => {

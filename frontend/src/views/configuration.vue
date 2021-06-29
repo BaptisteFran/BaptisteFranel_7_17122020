@@ -133,7 +133,7 @@ export default {
         surname: "",
         email: "",
         password: "",
-        rights: 1,
+        rights: 768,
       },
       terms: false,
       passwordError: "",
