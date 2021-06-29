@@ -3,17 +3,28 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const db = require('../models/index');
 const nodemailer = require('nodemailer');
+require('dotenv').config();
+const email_address = process.env.EMAIL_ADDRESS;
+const email_password = process.env.EMAIL_PASSWORD;
+const email_host = process.env.EMAIL_HOST;
 
 
 const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
+    host: email_host,
     port: 465,
     secure: true,
     auth: {
-        user: 'baptiste.franel@gmail.com',
-        pass: 'NpzoSXMn1'
+        user: email_address,
+        pass: email_password
     }
 });
+
+exports.firstRegister = (req, res) => {
+    db.User.count()
+    .then(count => {
+        console.log(count);
+    })
+}
 
 exports.register = (req, res) => {
     const regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;

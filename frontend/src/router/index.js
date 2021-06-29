@@ -8,6 +8,7 @@ import UserPosts from '../views/User.vue'
 import Admin from '../views/Administration.vue'
 import Modify from '../views/modify.vue'
 import ModifyUser from '../views/modifyUser.vue'
+import Configuration from '../views/configuration.vue'
 import axios from 'axios'
 import error from '../views/error.vue'
 const token = localStorage.getItem('jwt')
@@ -44,6 +45,14 @@ const routes = [
     component: Register,
     meta: {
       guest: true
+    }
+  },
+  {
+    path: '/configuration',
+    name: 'Configuration',
+    component: Configuration,
+    meta: {
+      requiresFirstRun: true
     }
   },
   {
