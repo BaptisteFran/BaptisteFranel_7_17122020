@@ -27,7 +27,11 @@ EMAIL_HOST = votre_serveur_smpt
 `
 
 
+###### Création du premier utilisateur
 
+- Le premier utilisateur aura TOUJOURS les droits d'administration
+- Après la création du premier utilisateur, tous les comptes auront un compte d'utilisateur normal
+- Si vous souhaitez modifier les droits d'un compte, il vous faudra les modifier via le panneau d'administration avec le premier compte créé.
 
 
 ###### Gestion des droits utilisateurs :
